@@ -2,9 +2,40 @@
 const { gql } = require('apollo-server-express');
 
 // create our typeDefs
+
+// adding (username: String) to type Query thoughts below, setups to ability to pass param
+// ! after data types means for the query to executed, that data must exist
 const typeDefs = gql`
-  type Query {
-      helloWorld: String
+  type Thought {
+      _id: ID
+      thoughtText: String
+      createdAt: String
+      username: String
+      reactionCount: Int
+      reactions: [Reaction]
+  }
+
+  type User {
+    _id: ID
+    username: String
+    email: String
+    friendCount: Int
+    thoughts: [Thought]
+    friends: [User]
+  }
+
+  type Reaction {
+    _id: ID
+    reactionBody: String
+    createdAt: String
+    username: String
+  }
+
+  type Query {  
+    users: [User]
+    user(username: String!): User
+    thoughts(username: String): [Thought]
+    thought(_id: ID!): Thought
   }`;
 
 // export the typeDefs
